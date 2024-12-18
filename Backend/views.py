@@ -8,7 +8,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import HttpResponse
 import requests
-PAGE_ACCESS_TOKEN = "EAAH4c8ZBWmYwBOzYPAQdT4WAzPbq7h2oEQ2hjmYnFxls3z3xlzxiUFmROuSnhQYQc3w9Kwcqwxj3SXQXgHkPtFFl2X9Qmtvhc7Ila0ZCtylPVB9WgxZBcPGhPFpYqyUyNG33LXAdpfLffkNdKljpjXeh3dZBWj7mSwQkJEvRoRfv7ZBtSPoNhm9FXweoZB9FT4JKkjgvDd"
 
 class FacebookLeadsView(generics.GenericAPIView):
     def get(self, request):

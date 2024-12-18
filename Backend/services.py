@@ -3,6 +3,7 @@ from django.conf import settings
 from rest_framework.response import Response
 from .DTOS import LeadDTO
 from rest_framework import status
+PAGE_ACCESS_TOKEN = "EAAH4c8ZBWmYwBOzYPAQdT4WAzPbq7h2oEQ2hjmYnFxls3z3xlzxiUFmROuSnhQYQc3w9Kwcqwxj3SXQXgHkPtFFl2X9Qmtvhc7Ila0ZCtylPVB9WgxZBcPGhPFpYqyUyNG33LXAdpfLffkNdKljpjXeh3dZBWj7mSwQkJEvRoRfv7ZBtSPoNhm9FXweoZB9FT4JKkjgvDd"
 
 def fetch_lead_data(leadgen_id):
     """
@@ -22,19 +23,18 @@ def fetch_lead_data(leadgen_id):
         print("Exception:", e)
         return None
 
-def send_lead_to_erpnext(lead_data):
+def send_lead_to_erpnext(site,lead_data):
     """
     Send lead data to all configured ERPNext sites.
     """
     responses = []
-    api_url = "http://127.0.0.1:8000/api/resource/Lead"
     headers = {
-        "Authorization": "token 5e2c6e3b0ea51ab:e2060d0183c9ed0",
+        "Authorization": f"Bearer {site['token']}",
         "Content-Type": "application/json",
     }
 
     try:
-        response = requests.post(api_url, json=lead_data, headers=headers)
+        response = requests.post(site['url'], json=lead_data, headers=headers)
         if response.status_code == 200:
             responses.append({
                 "status": "Success",
@@ -70,11 +70,11 @@ def send_data_to_ERPNext(data):
             # }
 
             # Send lead data to ERPNext sites
-            responses = send_lead_to_erpnext(data)
+            for site in ERP_SITES:
+                send_lead_to_erpnext(api_url=site,lead_data=data)
 
             return Response({
                 "status": "Processed",
-                "details": responses
             }, status=200)
         except Exception as e:
             return Response({"error": str(e)}, status=500)

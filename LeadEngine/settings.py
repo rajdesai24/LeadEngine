@@ -126,3 +126,9 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEBUG = True
+ERP_SITES = [
+    {
+        "url": "http://127.0.0.1:8000/api/resource/Lead",
+        "token": "token_for_site1",
+    },
+]
