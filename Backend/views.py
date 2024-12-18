@@ -2,31 +2,13 @@ from .serializers import AcresLeadSerializer,HousingLeadSerializer,MagicBricksLe
 from django.http import JsonResponse
 import json
 from .models import Lead
-from .services import send_data_to_ERPNext,process_99acres_data,process_magicbricks_data,process_housing_data
+from .services import send_data_to_ERPNext,process_99acres_data,process_magicbricks_data,process_housing_data,process_facebook_data
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import HttpResponse
 import requests
 PAGE_ACCESS_TOKEN = "EAAH4c8ZBWmYwBOzYPAQdT4WAzPbq7h2oEQ2hjmYnFxls3z3xlzxiUFmROuSnhQYQc3w9Kwcqwxj3SXQXgHkPtFFl2X9Qmtvhc7Ila0ZCtylPVB9WgxZBcPGhPFpYqyUyNG33LXAdpfLffkNdKljpjXeh3dZBWj7mSwQkJEvRoRfv7ZBtSPoNhm9FXweoZB9FT4JKkjgvDd"
-
-def fetch_lead_data(leadgen_id):
-    """
-    Fetch lead data from Facebook Graph API using the leadgen_id.
-    """
-    url = f"https://graph.facebook.com/v21.0/{leadgen_id}"
-    headers = {"Authorization": f"Bearer {PAGE_ACCESS_TOKEN}"}
-
-    try:
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            return response.json()
-        else:
-            print("Error fetching lead data:", response.text)
-            return None
-    except Exception as e:
-        print("Exception:", e)
-        return None
 
 class FacebookLeadsView(generics.GenericAPIView):
     def get(self, request):
@@ -43,24 +25,12 @@ class FacebookLeadsView(generics.GenericAPIView):
     def post(self, request):
         try:
             # Process webhook payload
-            data = json.loads(request.body)
-
-            # Check if the field is 'leadgen' and extract data
-            if data.get("field") == "leadgen":
-                lead_data = data.get("value", {})
-                leadgen_id = lead_data.get("leadgen_id")
-                
-                if leadgen_id:
-                    # Fetch personal lead data from the Graph API
-
-                    personal_data = fetch_lead_data(leadgen_id)
-                    send_data_to_ERPNext(personal_data)
-                    return JsonResponse({"status": "Lead processed", "lead_data": personal_data}, status=200)
+                data = json.loads(request.body)
+                result = process_facebook_data(data) 
+                return JsonResponse({"status": "Lead processed"}, status=200)
 
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
-        except Exception as e:
-            return JsonResponse({"success": False, "error": str(e)}, status=500)
 
 class AcresLeadsView(generics.GenericAPIView):
     def post(self, request):
