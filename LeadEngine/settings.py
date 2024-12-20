@@ -139,5 +139,6 @@ ERP_SITES = [
     {
         "url": "http://127.0.0.1:8000/api/resource/Lead",
         "token": "bad12cb0ee2dc87",
+        "api_key": "5e2c6e3b0ea51ab"
     },
 ]

@@ -30,7 +30,7 @@ def send_lead_to_erpnext(site,lead_data):
     """
     responses = []
     headers = {
-        "Authorization": f"token 5e2c6e3b0ea51ab:{site['token']}",
+        "Authorization": f"token {site['api_key']}:{site['token']}",
         "Content-Type": "application/json",
     }
     
