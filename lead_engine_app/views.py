@@ -80,7 +80,7 @@ class HousingLeadsView(generics.GenericAPIView):
                 "phone": request.data.get('phone'),
                 "company_name": request.data.get('source'),
             }
-            serializer = MagicBricksLeadSerializer(data=serializing_data)
+            serializer = HousingLeadSerializer(data=serializing_data)
             try:
                 if serializer.is_valid():
                     # Pass validated data to the processing function
