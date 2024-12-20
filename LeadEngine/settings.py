@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Backend.apps.BackendConfig'
+    'lead_engine_app.apps.BackendConfig',
+    'lead_engine_exception_handling.apps.ExceptionHandlingConfig',
+    'lead_engine_logger.apps.LeadEngineLoggerConfig',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +54,13 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'LeadEngine.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+    ),
+    'EXCEPTION_HANDLER': 'lead_engine_exception_handling.custom_exception_handler.custom_exception_handler',
+}
+
 
 TEMPLATES = [
     {
@@ -129,6 +138,6 @@ DEBUG = True
 ERP_SITES = [
     {
         "url": "http://127.0.0.1:8000/api/resource/Lead",
-        "token": "token_for_site1",
+        "token": "bad12cb0ee2dc87",
     },
 ]
