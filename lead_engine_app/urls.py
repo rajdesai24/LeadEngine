@@ -1,5 +1,11 @@
 from django.urls import path
-from .views import FacebookLeadsView,AcresLeadsView,MagicBricksLeadsView,HousingLeadsView
+from .views import (
+    FacebookLeadsView,
+    AcresLeadsView,
+    MagicBricksLeadsView,
+    HousingLeadsView,
+)
+
 urlpatterns = [
     path("facebook/", FacebookLeadsView.as_view(), name="facebook_webhook"),
     path("99acres/", AcresLeadsView.as_view(), name="acres_webhook"),

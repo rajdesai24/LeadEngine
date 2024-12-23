@@ -10,4 +10,4 @@ class GenericException(APIException):
 class BadRequest(APIException):
     status_code = status.HTTP_400_BAD_REQUEST
     default_code = 1400
-    default_detail = 'Bad Request'
+    default_detail = "Bad Request"
